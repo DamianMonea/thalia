@@ -1,7 +1,8 @@
-mod neuron;
+use crate::utils::*;
 use crate::neuron::*;
 
-pub struct Dense {
-    neurons: Vec<Neuron>,
+#[allow(dead_code)]
+pub struct Dense<T: Float> {
+    neurons: Vec<Neuron<T>>,
     activation: usize,
 }

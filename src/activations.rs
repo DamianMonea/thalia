@@ -1,6 +1,7 @@
-use std::ops::{Mul, Add};
+use crate::utils::*;
 
-pub fn relu<T>(x: T) -> T
+#[allow(dead_code)]
+pub fn relu<T: Float>(x:T ) -> T
 where
     T: PartialOrd + Copy + From<u8>,
 {
@@ -11,7 +12,16 @@ where
     }
 }
 
-pub fn sigmoid<T>(x: T) -> T
+#[allow(dead_code)]
+pub fn badrelu<T: Float>(x:T ) -> T
+where
+    T: PartialOrd + Copy + From<u8>,
+{
+    x
+}
+
+#[allow(dead_code)]
+pub fn sigmoid<T: Float>(x: T) -> T
 where
     T: Into<f64>, T: From<f64>
 {

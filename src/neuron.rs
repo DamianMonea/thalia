@@ -1,19 +1,14 @@
 use std::ops::{Mul, Add};
-use std::iter::Sum;
-use rand::prelude::*;
-use crate::activations::*;
+use crate::utils::*;
 
-
-pub struct Neuron<T>
-where
-    T: PartialOrd + Copy + From<u8>,
+pub struct Neuron<T: Float>
 {
     weights: Vec<T>,
     activation: fn(T) -> T,
     bias: T,
 }
 
-pub trait New<T> 
+pub trait New<T: Float> 
 where
     T: PartialOrd + Copy + From<u8>,
 {
@@ -21,14 +16,7 @@ where
     fn set_weights(&mut self, weights: Vec<T>) -> Result<bool, String>;
 }
 
-pub trait ForwardPass<T> 
-where
-    T: PartialOrd + Copy + From<u8>,
-{
-    fn forward_pass(self, inputs: Vec<T>) -> T;
-}
-
-impl<T> New<T> for Neuron<T> 
+impl<T: Float> New<T> for Neuron<T> 
 where
     T: PartialOrd + Copy + From<u8>,
 {
@@ -55,11 +43,20 @@ where
     }
 }
 
-impl<T> ForwardPass<T> for Neuron<T>
+pub trait ForwardPass<T: Float>
+{
+    fn forward_pass(self, inputs: &Vec<Vec<T>>) -> Vec<T>;
+}
+
+impl<T: Float> ForwardPass<T> for Neuron<T>
 where
     T: PartialOrd + Copy + From<u8> + Mul<Output = T> + Add<Output = T> + From<f64> + Into<f64>, for<'a> &'a T: Mul<&'a T>
 {
-    fn forward_pass(self, inputs: Vec<T>) -> T {
-        (self.activation)(T::from(inputs.iter().zip(self.weights.iter()).map(|(&x, &y)| x * y).map(Into::into).sum::<f64>() + self.bias.into()))
+    fn forward_pass(self, inputs: &Vec<Vec<T>>) -> Vec<T> {
+        let mut res: Vec<T> = Vec::with_capacity(inputs.len());
+        for input in inputs {
+            res.push((self.activation)(T::from(input.iter().zip(self.weights.iter()).map(|(&x, &y)| x * y).map(Into::into).sum::<f64>() + self.bias.into())));
+        }
+        res   
     }
 }
