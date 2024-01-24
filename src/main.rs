@@ -1,10 +1,6 @@
-mod neuron;
-mod activations;
-mod utils;
-mod dense;
 use rand::Rng;
-use crate::neuron::*;
-use crate::activations::*;
+use thalia::neuron::*;
+use thalia::activations::*;
 
 fn main() {
 
@@ -41,5 +37,4 @@ fn main() {
     n2.set_weights(weights.to_vec()).unwrap();
     println!("Bad Output:");
     println!("{:?}", n2.forward_pass(&input_batch));
-
 }

@@ -20,6 +20,13 @@ impl<T: Float> New<T> for Neuron<T>
 where
     T: PartialOrd + Copy + From<u8>,
 {
+    /// Create a new Neuron.
+    /// 
+    /// # Examples
+    /// ```
+    /// let n1: Neuron<f32> = Neuron::new(10, relu::<f64>);
+    /// let n2: Neuron<f64> = Neuron::new(20, sigmoid::<f64>, Some(2.));
+    /// ```
     fn new(num_weights: usize, activation: fn(T)->T, bias: Option<T>) -> Self {
         Neuron {
             weights: Vec::with_capacity(num_weights),
@@ -28,6 +35,13 @@ where
         }
     }
 
+    /// Set the weights for a Neuron
+    /// 
+    /// # Examples
+    /// ```
+    /// let n1: Neuron<f32> = Neuron::new(3, relu::<f64>);
+    /// n1.set_weights([1.2, -0.5, 0.42].to_vec());
+    /// ```
     fn set_weights(&mut self, weights: Vec<T>) -> Result<bool, String>{
         let num_weights = weights.len();
         if self.weights.len() == 0 {
