@@ -9,6 +9,8 @@ license = "MIT"
 [dependencies]
 rand = "0.8.5"
 rayon = "1.8.1"
+ndarray = "0.15"
+ndarray-linalg = "0.14"
 
 [profile.dev]
 opt-level = 0
